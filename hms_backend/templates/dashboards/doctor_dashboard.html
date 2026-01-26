@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - HMS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .navbar-menu a:hover {
+            opacity: 0.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table thead {
+            background: #f5f5f5;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .table th {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .table tbody tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-booked {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">HMS - Doctor</div>
+        <div class="navbar-menu">
+            <a href="#availability">My Availability</a>
+            <a href="#bookings">Bookings</a>
+            <a href="#profile">Profile</a>
+            <a href="/api/users/logout/">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Doctor Dashboard</h1>
+            <p>Welcome, <strong>{{ doctor_name }}</strong> | Manage your availability and view bookings</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="total-slots">0</div>
+                <div class="stat-label">Total Availability Slots</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="available-slots">0</div>
+                <div class="stat-label">Available Slots</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="booked-slots">0</div>
+                <div class="stat-label">Booked Appointments</div>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <!-- Create Availability Card -->
+            <div class="card">
+                <h2>Add Availability Slot</h2>
+                <form id="availabilityForm">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="availDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Time</label>
+                        <input type="time" id="availStartTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label>End Time</label>
+                        <input type="time" id="availEndTime" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Slot</button>
+                </form>
+            </div>
+            
+            <!-- Google Calendar Card -->
+            <div class="card">
+                <h2>Google Calendar</h2>
+                <p style="margin-bottom: 15px; color: #666;">Connect your Google Calendar to automatically sync appointments.</p>
+                <button id="connectGoogleBtn" class="btn btn-primary" style="width: 100%;">Connect Google Calendar</button>
+                <p id="googleStatus" style="margin-top: 15px; color: #666; font-size: 14px;"></p>
+            </div>
+        </div>
+        
+        <!-- Availability Slots -->
+        <div class="card" id="availability">
+            <h2>My Availability Slots</h2>
+            <table class="table" id="slotsTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="slotsList">
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <h3>No availability slots yet</h3>
+                            <p>Create your first slot using the form above</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Bookings -->
+        <div class="card" id="bookings">
+            <h2>Your Appointments</h2>
+            <table class="table" id="bookingsTable">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingsList">
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <h3>No bookings yet</h3>
+                            <p>Your appointments will appear here</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        
+        // Load availability slots
+        async function loadSlots() {
+            try {
+                const response = await fetch(`${API_BASE}/availability/my-slots/`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                displaySlots(data);
+                updateStats(data);
+            } catch (error) {
+                console.error('Error loading slots:', error);
+            }
+        }
+        
+        function displaySlots(slots) {
+            const tbody = document.getElementById('slotsList');
+            if (slots.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty-state"><h3>No availability slots yet</h3></td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = slots.map(slot => `
+                <tr>
+                    <td>${new Date(slot.date).toLocaleDateString()}</td>
+                    <td>${slot.start_time} - ${slot.end_time}</td>
+                    <td><span class="badge badge-${slot.is_booked ? 'booked' : 'available'}">${slot.is_booked ? 'Booked' : 'Available'}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editSlot(${slot.id})">Edit</button>
+                        ${!slot.is_booked ? `<button class="btn btn-danger" onclick="deleteSlot(${slot.id})">Delete</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function updateStats(slots) {
+            const total = slots.length;
+            const available = slots.filter(s => !s.is_booked).length;
+            const booked = slots.filter(s => s.is_booked).length;
+            
+            document.getElementById('total-slots').textContent = total;
+            document.getElementById('available-slots').textContent = available;
+            document.getElementById('booked-slots').textContent = booked;
+        }
+        
+        // Load bookings
+        async function loadBookings() {
+            try {
+                const response = await fetch(`${API_BASE}/bookings/my-bookings/`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                displayBookings(data);
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+            }
+        }
+        
+        function displayBookings(bookings) {
+            const tbody = document.getElementById('bookingsList');
+            if (bookings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty-state"><h3>No bookings yet</h3></td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>${booking.patient_name}</td>
+                    <td>${new Date(booking.slot_details.date).toLocaleDateString()} ${booking.slot_details.start_time}</td>
+                    <td><span class="badge badge-${booking.status === 'confirmed' ? 'available' : 'booked'}">${booking.status}</span></td>
+                    <td>
+                        ${booking.status === 'confirmed' ? `<button class="btn btn-danger" onclick="cancelBooking(${booking.id})">Cancel</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        // Create availability slot
+        document.getElementById('availabilityForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const date = document.getElementById('availDate').value;
+            const startTime = document.getElementById('availStartTime').value;
+            const endTime = document.getElementById('availEndTime').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/availability/create/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        date,
+                        start_time: startTime,
+                        end_time: endTime
+                    })
+                });
+                
+                if (response.ok) {
+                    alert('Slot created successfully!');
+                    document.getElementById('availabilityForm').reset();
+                    loadSlots();
+                } else {
+                    alert('Error creating slot');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error creating slot');
+            }
+        });
+        
+        // Delete slot
+        async function deleteSlot(slotId) {
+            if (!confirm('Are you sure you want to delete this slot?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/availability/${slotId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    alert('Slot deleted successfully!');
+                    loadSlots();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // Cancel booking
+        async function cancelBooking(bookingId) {
+            if (!confirm('Are you sure you want to cancel this booking?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/bookings/${bookingId}/cancel/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    alert('Booking cancelled successfully!');
+                    loadBookings();
+                    loadSlots();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        // Google Calendar connection
+        document.getElementById('connectGoogleBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch(`${API_BASE}/calendar/google/auth-url/`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                window.location.href = data.auth_url;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+        
+        function checkGoogleConnection() {
+            fetch(`${API_BASE}/calendar/google/check/`, {
+                credentials: 'include'
+            })
+            .then(r => r.json())
+            .then(data => {
+                const statusEl = document.getElementById('googleStatus');
+                if (data.is_connected) {
+                    statusEl.innerHTML = '<span style="color: green;">✓ Connected to Google Calendar</span>';
+                    document.getElementById('connectGoogleBtn').textContent = 'Disconnect';
+                } else {
+                    statusEl.innerHTML = '<span style="color: orange;">Not connected</span>';
+                }
+            });
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Load data on page load
+        loadSlots();
+        loadBookings();
+        checkGoogleConnection();
+        
+        // Refresh every 30 seconds
+        setInterval(() => {
+            loadSlots();
+            loadBookings();
+        }, 30000);
+    </script>
+</body>
+</html>

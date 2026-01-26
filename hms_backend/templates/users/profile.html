@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+
+{% block title %}Profile - HMS{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="nav">
+        <div class="nav-brand">HMS</div>
+        <div class="nav-links">
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+    
+    <div class="dashboard-header">
+        <h1>My Profile</h1>
+        <p>Welcome, {{ user.get_full_name }}</p>
+    </div>
+    
+    <div class="card">
+        <h3>Account Information</h3>
+        <table class="table">
+            <tr>
+                <td><strong>Name:</strong></td>
+                <td>{{ user.get_full_name }}</td>
+            </tr>
+            <tr>
+                <td><strong>Email:</strong></td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td><strong>Role:</strong></td>
+                <td>{{ user.get_role_display }}</td>
+            </tr>
+            <tr>
+                <td><strong>Phone:</strong></td>
+                <td>{{ user.phone_number|default:"Not provided" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Member Since:</strong></td>
+                <td>{{ user.created_at|date:"M d, Y" }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
