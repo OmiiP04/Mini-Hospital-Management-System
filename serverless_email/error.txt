@@ -1,0 +1,5 @@
+[90mEnvironment: win32, node 22.14.0, framework 3.40.0 (local), plugin 7.2.3, SDK 4.5.1[39m
+[90mDocs:        docs.serverless.com[39m
+[90mSupport:     forum.serverless.com[39m
+[90mBugs:        github.com/serverless/serverless/issues[39m
+

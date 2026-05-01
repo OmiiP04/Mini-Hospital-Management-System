@@ -1,6 +1,7 @@
 service: hms-email-service
 
 frameworkVersion: '3'
+useDotenv: true
 
 provider:
   name: aws
