@@ -47,7 +47,6 @@ A comprehensive hospital management web application for managing doctor availabi
 
 ## Project Structure
 
-```
 Mini Hospital Management System/
 ├── hms_backend/              # Django backend
 │   ├── hms_project/          # Main Django project
