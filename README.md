@@ -96,7 +96,7 @@ Mini Hospital Management System/
 1. **Navigate to backend directory:**
 ```bash
 cd hms_backend
-```
+
 
 2. **Create virtual environment:**
 ```bash
