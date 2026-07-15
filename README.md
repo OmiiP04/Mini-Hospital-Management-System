@@ -387,7 +387,7 @@ serverless deploy
 
 # Set environment variables in AWS Lambda console
 # Update EMAIL_SERVICE_URL in Django settings
-```
+
 
 ## Contributing
 
