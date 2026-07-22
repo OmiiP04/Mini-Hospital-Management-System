@@ -347,7 +347,6 @@ The 10-minute demo should showcase:
 # macOS: brew services list
 # Linux: sudo systemctl status postgresql
 ```
-
 ### Module Not Found
 ```bash
 # Ensure virtual environment is activated
