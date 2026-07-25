@@ -403,6 +403,3 @@ MIT License
 
 For issues or questions, create an issue in the repository.
 
----
-
-**Happy Coding! 🏥**
