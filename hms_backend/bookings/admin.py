@@ -7,3 +7,6 @@ class BookingAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at')
     search_fields = ('patient__email', 'doctor__email')
     readonly_fields = ('created_at', 'updated_at')
+
+
+
